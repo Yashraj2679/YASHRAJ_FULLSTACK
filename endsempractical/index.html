@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Post Form</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    form {
+      width: 300px;
+    }
+    input, textarea {
+      width: 100%;
+      margin: 8px 0;
+      padding: 8px;
+    }
+    button {
+      padding: 8px;
+    }
+    #status {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h3>Add New Post</h3>
+
+  <form id="form">
+    <input type="text" name="title" placeholder="Title" required>
+    <textarea name="body" placeholder="Body" required></textarea>
+    <button type="submit">Send</button>
+  </form>
+
+  <div id="status"></div>
+
+  <script>
+    const form = document.getElementById('form');
+    const status = document.getElementById('status');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      status.textContent = " Sending...";
+
+      const formData = new FormData(form);
+
+      fetch('/posts', {
+        method: 'POST',
+        body: formData
+      })
+      .then(res => {
+        if (res.ok) {
+          status.textContent = " Successfully submitted!";
+          form.reset();
+        } else {
+          status.textContent = "Successfully submitted!";
+        }
+      })
+      .catch(() => {
+        status.textContent = " Server error!";
+      });
+    });
+  </script>
+
+</body>
+</html>
